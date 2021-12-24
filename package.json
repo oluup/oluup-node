@@ -1,0 +1,17 @@
+{
+  "name": "oluup",
+  "version": "0.0.1",
+  "description": "Nodejs package for Oluup",
+
+  "scripts": {
+    "index": "node index.js"
+  },
+
+  "main": "index.js",
+  "repository": "https://github.com/oluup/oluup-node.git",
+  "author": "Yasar ICLI <yasaricli@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^0.24.0"
+  }
+}
