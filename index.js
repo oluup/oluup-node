@@ -502,12 +502,4 @@ class Oluup {
   }
 }
 
-(async () => {
-  const node = new Oluup("Testnet");
-
-  const contract = await node.contract("Single");
-
-  console.log(contract.contract.networks);
-})();
-
 module.exports = Oluup;
