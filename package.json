@@ -1,6 +1,6 @@
 {
   "name": "oluup",
-  "version": "0.0.2",
+  "version": "0.0.9",
   "description": "Nodejs package for Oluup",
   "scripts": {
     "index": "node index.js"
@@ -11,6 +11,7 @@
   "license": "MIT",
   "dependencies": {
     "axios": "^0.24.0",
+    "nft.storage": "^5.2.0",
     "web3": "^1.6.1"
   }
 }

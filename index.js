@@ -1,40 +1,78 @@
 const Axios = require("axios").default;
 const Web3 = require("web3");
+const { NFTStorage, Blob } = require("nft.storage");
 
 // srcs.
-const { API_NAMES, PROVIDER_URLS } = require("./src/shortcuts");
+const {
+  API_NAMES,
+  NFT_STORAGE_API_URL,
+  NFT_STORAGE_KEY,
+  IPFS_ROOT_URL,
+} = require("./src/shortcuts");
 
 class Contract {
   constructor(web3, contract, address) {
+    // defaulr royality
+    this.ROYALITY = 10;
+
     this.contract = new web3.eth.Contract(contract.abi.abi, address);
   }
 
-  mint() {}
+  mint({ tokenURI, from, buyAmount, mintAmount }) {
+    const { mint } = this.contract.methods;
+    const request = mint(tokenURI, Web3.utils.toWei(buyAmount), this.ROYALITY);
 
-  buy() {}
+    let sendData = {
+      from,
+    };
 
-  changePrice() {}
+    if (mintAmount) {
+      sendData.value = Web3.utils.toWei(mintAmount);
+    }
 
-  toggleIsSale() {}
-
-  burn() {}
+    return request.send(sendData);
+  }
 }
 
 class Oluup {
-  constructor(rpc, version = "v1") {
-    this.web3 = new Web3(PROVIDER_URLS[rpc]);
+  constructor(eth) {
+    this.web3 = new Web3(eth);
 
     this.fetch = Axios.create({
-      baseURL: `${API_NAMES[rpc]}/api/${version}`
+      baseURL: `${API_NAMES["Testnet"]}/api/v1`,
     });
   }
 
+  async ipfs({ name, description, attributes, image }) {
+    const storage = new NFTStorage({
+      endpoint: NFT_STORAGE_API_URL,
+      token: NFT_STORAGE_KEY,
+    });
+
+    const imageCid = await storage.storeBlob(new Blob([image]));
+
+    const data = {
+      name,
+      description,
+      image: `${IPFS_ROOT_URL}/${imageCid}`,
+      attributes,
+    };
+
+    const metadata = new Blob([JSON.stringify(data)], {
+      type: "application/json",
+    });
+
+    const cid = await storage.storeBlob(metadata);
+
+    return `${IPFS_ROOT_URL}/${cid}`;
+  }
+
   fetchAbis() {
-    return this.fetch.get("/abis").then(({ data }) => data.data.results);
+    return this.fetch.get("/abis/").then(({ data }) => data.data.results);
   }
 
   fetchAbi(id) {
-    return this.fetch.get(`/abis/${id}`).then(({ data }) => data.data);
+    return this.fetch.get(`/abis/${id}/`).then(({ data }) => data.data);
   }
 
   async contract(name, address) {
