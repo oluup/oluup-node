@@ -31,8 +31,7 @@ const tokenURI = "https://gateway.pinata.cloud/ipfs/QmYFmJgQGH4uPHRYN15Xdv4aLd9o
 contract.mint({
     tokenURI,
     from: wallet.account, // Minter Account
-    buyAmount: "0.01", // Nft price
-    // mintAmount: MINT_AMOUNT, // Optional
+    price: "0.01", // Nft price
 });
 ```
 
