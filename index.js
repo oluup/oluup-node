@@ -23,8 +23,13 @@ class Contract {
     const request = mint(tokenURI, Web3.utils.toWei(price), this.ROYALITY);
 
     return request.send({
-      from
+      from,
     });
+  }
+
+  totalSupply() {
+    const { totalSupply } = this.contract.methods;
+    return totalSupply().call();
   }
 }
 
