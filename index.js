@@ -18,19 +18,13 @@ class Contract {
     this.contract = new web3.eth.Contract(contract.abi.abi, address);
   }
 
-  mint({ tokenURI, from, buyAmount, mintAmount }) {
+  mint({ tokenURI, from, price }) {
     const { mint } = this.contract.methods;
-    const request = mint(tokenURI, Web3.utils.toWei(buyAmount), this.ROYALITY);
+    const request = mint(tokenURI, Web3.utils.toWei(price), this.ROYALITY);
 
-    let sendData = {
-      from,
-    };
-
-    if (mintAmount) {
-      sendData.value = Web3.utils.toWei(mintAmount);
-    }
-
-    return request.send(sendData);
+    return request.send({
+      from
+    });
   }
 }
 
