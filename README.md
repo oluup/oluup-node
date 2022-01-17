@@ -5,40 +5,50 @@ Nodejs package for Oluup
 
     yarn add oluup
     
-## Use
+## Node And Get Contract
 
 ```JS
 import Oluup from 'oluup';
 
 // Get Node, Testnet or Mainnet
-const OluupNode = new Oluup("Testnet");
+const OluupNode = new Oluup(wallet.ethereum); // eth provider.
 
 // Collection Contract Address
 const contract_address = "xxxxxx";
 
 // Contract Object
 const contract = await OluupNode.contract("Single", contract_address);
+```
+
+## Mint
+
+```JS
 
 // Example token uri
 const tokenURI = "https://gateway.pinata.cloud/ipfs/QmYFmJgQGH4uPHRYN15Xdv4aLd9o4Aq63y1e4GgN6kj5aK/2";
 
 // Mint
-contract.mint(tokenURI);
+contract.mint({
+    tokenURI,
+    from: wallet.account, // Minter Account
+    price: "0.01", // Nft price
+});
+```
 
+## İpfs 
 
-// Example Token Id
-const tokenID = 1;
+```JS
 
+const tokenURI = await OluupNode.ipfs({
+  name: "dsdsds",
+  description: "dsdsdss",
+  image,
 
-// Buy
-contract.buy(tokenID);
-
-// Change Price
-contract.changePrice(tokenID);
-
-// Toggle Is Sale
-contract.toggleIsSale(tokenID);
-
-// Burn
-contract.burn(tokenID);
+  attributes: [
+    {
+      trait_type: "Body",
+      value: "Standard",
+    },
+  ],
+});
 ```
