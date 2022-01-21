@@ -1,6 +1,6 @@
 {
   "name": "oluup",
-  "version": "0.0.13",
+  "version": "0.0.18",
   "description": "Nodejs package for Oluup",
   "scripts": {
     "index": "node index.js"

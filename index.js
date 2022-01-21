@@ -30,11 +30,11 @@ class Contract {
   preSaleMint({ tokenURI, from, price }) {
     const { preSaleMint } = this.contract.methods;
     const value = Web3.utils.toWei(price);
-    const request = preSaleMint(tokenURI, value, this.ROYALITY);
+    const request = preSaleMint(tokenURI, value);
 
     return request.send({
       from,
-      value,
+      value
     });
   }
 
