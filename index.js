@@ -27,6 +27,17 @@ class Contract {
     });
   }
 
+  preSaleMint({ tokenURI, from, price }) {
+    const { preSaleMint } = this.contract.methods;
+    const value = Web3.utils.toWei(price);
+    const request = preSaleMint(tokenURI, value, this.ROYALITY);
+
+    return request.send({
+      from,
+      value,
+    });
+  }
+
   totalSupply() {
     const { totalSupply } = this.contract.methods;
     return totalSupply().call();
