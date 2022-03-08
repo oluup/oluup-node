@@ -27,14 +27,13 @@ class Contract {
     });
   }
 
-  preSaleMint({ tokenURI, from, price }) {
+  preSaleMint(items, from) {
     const { preSaleMint } = this.contract.methods;
-    const value = Web3.utils.toWei(price);
-    const request = preSaleMint(tokenURI, value);
+    const request = preSaleMint(items);
 
     return request.send({
       from,
-      value
+      value: _.sum(items.map((item) => parseInt(item[1])))
     });
   }
 
